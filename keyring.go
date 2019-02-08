@@ -7,7 +7,7 @@
 // A Go interface to linux kernel keyrings (keyctl interface)
 package keyctl
 
-import "errors"
+import "fmt"
 
 // All Keys and Keyrings have unique 32-bit serial number identifiers.
 type Id interface {
@@ -129,7 +129,7 @@ func PersistentKeyring(uid int, parent Keyring) (Keyring, error) {
 	id := parent.Id()
 	r1, _, err := keyctl(keyctlGetPersistent, uintptr(uid), uintptr(id))
 	if err != nil {
-		return nil, errors.New("failed")
+		return nil, fmt.Errorf("Failed to get persistent keyring: %v", err)
 	}
 
 	return newKeyring(keyId(r1))

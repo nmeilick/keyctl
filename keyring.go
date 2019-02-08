@@ -7,6 +7,8 @@
 // A Go interface to linux kernel keyrings (keyctl interface)
 package keyctl
 
+import "errors"
+
 // All Keys and Keyrings have unique 32-bit serial number identifiers.
 type Id interface {
 	Id() int32
@@ -117,6 +119,20 @@ func ThreadKeyring() (Keyring, error) {
 // Return the keyring specific to the current executing process.
 func ProcessKeyring() (Keyring, error) {
 	return newKeyring(keySpecProcessKeyring)
+}
+
+func UserKeyring() (Keyring, error) {
+	return newKeyring(keySpecUserKeyring)
+}
+
+func PersistentKeyring(uid int, parent Keyring) (Keyring, error) {
+	id := parent.Id()
+	r1, _, err := keyctl(keyctlGetPersistent, uintptr(uid), uintptr(id))
+	if err != nil {
+		return nil, errors.New("failed")
+	}
+
+	return newKeyring(keyId(r1))
 }
 
 // Creates a new named-keyring linked to a parent keyring. The parent may be

@@ -38,6 +38,14 @@ const (
 	keyctlSetReqKeyKeyring
 	keyctlSetTimeout
 	keyctlAssumeAuthority
+	keyctlGetSecurity
+	keyctlSessionToParent
+	keyctlReject
+	keyctlInstantiateIov
+	keyctlInvalidate
+	keyctlGetPersistent
+	keyctlDhCompute
+	keyctlRestrictKeyring
 )
 
 var debugSyscalls bool
@@ -82,6 +90,22 @@ func (cmd keyctlCommand) String() string {
 		return "keyctlSetTimeout"
 	case keyctlAssumeAuthority:
 		return "keyctlAssumeAuthority"
+	case keyctlGetSecurity:
+		return "keyctlGetSecurity"
+	case keyctlSessionToParent:
+		return "keyctlSessionToParent"
+	case keyctlReject:
+		return "keyctlReject"
+	case keyctlInstantiateIov:
+		return "keyctlInstantiateIov"
+	case keyctlInvalidate:
+		return "keyctlInvalidate"
+	case keyctlGetPersistent:
+		return "keyctlGetPersistent"
+	case keyctlDhCompute:
+		return "keyctlDhCompute"
+	case keyctlRestrictKeyring:
+		return "keyctlRestrictKeyring"
 	}
 	panic("bad arg")
 }
